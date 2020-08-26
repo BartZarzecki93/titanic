@@ -12,27 +12,16 @@ def execute(input_file, output_file):
     # Reading preprocessed file
     df = pd.read_csv(input_file)
 
-    # Replacing text with binary in sex
-    df['Sex'] = df['Sex'].map({'female': 1, 'male': 0}).astype(int)
-
-    # Embarked (Switching to int after research (only three letters) )
-    df['Embarked'] = df['Embarked'].map({'S': 0, 'C': 1, 'Q': 2}).astype(int)
-
     # Family Size
     df["FamilySize"] = df["SibSp"] + df["Parch"] + 1
 
     # Is Alone?
     df["IsAlone"] = 0
     df.loc[df["FamilySize"] == 1, "IsAlone"] = 1
-    df = df.drop(['Parch', 'SibSp', 'FamilySize'], axis=1)
 
     # Fare
-    df.loc[df['Fare'] <= 7.91, 'Fare'] = 0
-    df.loc[(df['Fare'] > 7.91) & (df['Fare'] <= 14.454), 'Fare'] = 1
-    df.loc[(df['Fare'] > 14.454) & (df['Fare'] <= 31), 'Fare'] = 2
-    df.loc[df['Fare'] > 31, 'Fare'] = 3
-    df['Fare'] = df['Fare'].astype(int)
-
+    df['Fare_bin'] = pd.cut(df['Fare'], bins=[0, 7.91, 14.45, 31, 120], labels=['Low_fare', 'median_fare',
+                                                                                'Average_fare', 'high_fare'])
     # Title
     df['Title'] = df.Name.str.extract(' ([A-Za-z]+)\.', expand=False)
     df['Title'] = df['Title'].replace(['Countess', 'Lady', 'Sir'], 'Royal')
@@ -40,18 +29,15 @@ def execute(input_file, output_file):
     df['Title'] = df['Title'].replace('Mlle', 'Miss')
     df['Title'] = df['Title'].replace('Ms', 'Miss')
     df['Title'] = df['Title'].replace('Mme', 'Mrs')
-    title_mapping = {"Royal": 0, "Mr": 1, "Miss": 2, "Mrs": 3, "Master": 4, "Rare": 5}
-    df['Title'] = df['Title'].map(title_mapping)
-    df = df.drop(['Name'], axis=1)
 
     # Age
-    df.loc[df['Age'] <= 16, 'Age'] = 0
-    df.loc[(df['Age'] > 16) & (df['Age'] <= 32), 'Age'] = 1
-    df.loc[(df['Age'] > 32) & (df['Age'] <= 48), 'Age'] = 2
-    df.loc[(df['Age'] > 48) & (df['Age'] <= 64), 'Age'] = 3
-    df.loc[df['Age'] > 64, 'Age'] = 4
-    df['Age'] = df['Age'].astype(int)
+    df['Age_bin'] = pd.cut(df['Age'], bins=[0, 12, 20, 40, 120],
+                           labels=['Children', 'Teenage', 'Adult', 'Elder'])
+    # Delete unnecessary columns
+    df = df.drop(['FamilySize', 'Name', 'Age', "Fare"], axis=1)
 
-
+    # Create Dummies
+    df = pd.get_dummies(df, columns=["Sex", "Age_bin", "Title", "Fare_bin", "Embarked"],
+                        prefix=["Sex", "Age_type", "Title", "Fare_type", "Embarked_type"])
     # saving new file with preprocessed data
     df.to_csv(output_file, index=False)

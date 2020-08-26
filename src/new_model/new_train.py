@@ -1,7 +1,7 @@
 import pandas as pd
 import pickle as pkl
 
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC, LinearSVC
 from sklearn.metrics import accuracy_score
 
 
@@ -13,9 +13,8 @@ def train(input_file, model):
     y_train = df["Survived"]
     x_train = df.drop(["Survived", "PassengerId"], axis=1)
 
-    # Create a classifier and select scoring methods.
-    clf = RandomForestClassifier(n_estimators=10)
-
+    # Create SVC model
+    clf = SVC()
     # Fit full model and predict on both train and test.
     clf.fit(x_train, y_train)
     prediction = clf.predict(x_train)

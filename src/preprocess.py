@@ -1,22 +1,17 @@
 import pandas as pd
 
 
-# import numpy as np
-
-
 def execute(input_file, output_file):
 
+    # Reading initial file
     data = pd.read_csv(input_file, sep=";")
 
-    # dropping unuseful columns
+    # Dropping unuseful columns
     cols = ['Name', 'Ticket', 'Cabin']
     data = data.drop(cols, axis=1)
 
-    # dropping rows with missing values
+    # Dropping rows with missing values
     data = data.dropna()
 
-    # saving new file with preprocessed data
-    data.to_csv(output_file)
-
-
-execute("/Users/bartoszzarzecki/titanic/data/train.csv", "/Users/bartoszzarzecki/titanic/data/train_new1.csv")
+    # Saving new file with preprocessed data
+    data.to_csv(output_file, header=True, index=False)

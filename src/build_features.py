@@ -15,18 +15,8 @@ def execute(input_file, output_file):
     # Replacing text with binary in sex
     df['Sex'] = df['Sex'].map({'female': 1, 'male': 0}).astype(int)
 
-    embarked_dict = {}
-    embarked_dict_values = 0
-
-    for i in df.Embarked:
-        if i in embarked_dict.keys():
-            pass
-        else:
-            embarked_dict_values = embarked_dict_values + 1
-            embarked_dict[i] = embarked_dict_values
-
-    for i in embarked_dict.keys():
-        df["Embarked"].replace(i, embarked_dict[i], inplace=True)
+    # Embarked (Switching to int after research (only three letters) )
+    df['Embarked'] = df['Embarked'].map({'S': 0, 'C': 1, 'Q': 2}).astype(int)
 
     # Family Size
     df["FamilySize"] = df["SibSp"] + df["Parch"] + 1
@@ -36,7 +26,4 @@ def execute(input_file, output_file):
     df.loc[df["FamilySize"] == 1, "IsAlone"] = 1
 
     # saving new file with preprocessed data
-    df.to_csv(output_file)
-
-
-execute("/Users/bartoszzarzecki/titanic/data/train_new1.csv", "/Users/bartoszzarzecki/titanic/data/clean1.csv")
+    df.to_csv(output_file, index=False)

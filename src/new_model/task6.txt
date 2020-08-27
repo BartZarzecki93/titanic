@@ -1,0 +1,53 @@
+After hours of research and testing, assumed that SVC could my potential choice. Working with the provided code,
+model gave me a lot of questions. When talking about the models and measures, I have to admit that the provided model
+was one of the best models out of the list, however, the set up was very simple. I know that this task checks the
+understanding of the code and models, however, in order to perform the best results possible, we should dive in deeper
+into the settings and make sure that the ground for those models is tuned up.
+Just by looking on the documentation for each option there is a lot of settings that can be done for the each model.
+I know that we have to search based on our provided data, however, there is so many options that people try to perform
+and the accuracy is just different but small fraction ofr the percent.
+So, going back to my chosen model, i just went ahead and change the build feature to make sure that we have our data
+represented in binary structure which would fir both models, RFC and SVC.
+After setting up both training function and predict function, I got quite satisfying results.
+(NA or NULL entries were ignored)
+
+RFC:
+
+Train accuracy for the model is 0.896124031007752
+Classification report for the model:
+               precision    recall  f1-score   support
+
+           0       0.89      0.95      0.92       385
+           1       0.91      0.82      0.86       260
+
+    accuracy                           0.90       645
+   macro avg       0.90      0.88      0.89       645
+weighted avg       0.90      0.90      0.90       645
+
+Prediction:
+Accuracy is 0.7611940298507462
+
+SVC:
+
+Train accuracy for the model is 0.8294573643410853
+Classification report for the model:
+               precision    recall  f1-score   support
+
+           0       0.83      0.90      0.86       385
+           1       0.83      0.73      0.78       260
+
+    accuracy                           0.83       645
+   macro avg       0.83      0.81      0.82       645
+weighted avg       0.83      0.83      0.83       645
+
+Prediction:
+Accuracy is 0.8208955223880597
+
+
+
+
+Going back to the full set up.
+Created two similar files and tried to keep the same method of creating the model and reusing it in the prediction
+Kept the files (preprocess and build features) separated to make sure that we can reuse them or modify specific part only.
+Incorporated function that is used in the predict and train files that makes file to go throughout the preprocess first and
+building features.

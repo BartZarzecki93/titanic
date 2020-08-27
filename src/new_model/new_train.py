@@ -1,17 +1,22 @@
 import pandas as pd
 import pickle as pkl
 
-from sklearn.svm import SVC, LinearSVC
-from sklearn.metrics import accuracy_score
+from src.preprocess import Preprocessing
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, classification_report
 
 
 def train(input_file, model):
     # Reading file after build_features
-    df = pd.read_csv(input_file)
+    df = pd.read_csv(input_file, sep=";")
+
+    # Preprocessing with building features
+    preprocess = Preprocessing()
+    df = preprocess.execute(df)
 
     # Split the data for training.
     y_train = df["Survived"]
-    x_train = df.drop(["Survived", "PassengerId"], axis=1)
+    x_train = df.drop(["Survived"], axis=1)
 
     # Create SVC model
     clf = SVC()
@@ -20,6 +25,7 @@ def train(input_file, model):
     prediction = clf.predict(x_train)
     metric_name = "Train accuracy"
     metric_result = accuracy_score(y_train, prediction)
+    classification_result = classification_report(y_train, prediction)
 
     # Serializing and saving to file
     model_pickle = open(model, 'wb')
@@ -27,6 +33,8 @@ def train(input_file, model):
     model_pickle.close()
 
     # Return metrics and model.
-    info = metric_name + " for the model is "
-    info = info + str(metric_result)
-    print(info)
+    info_accuracy = "Train accuracy for the model is " + str(metric_result)
+    info_classification = "Classification report for the model:\n " + str(classification_result)
+    print(info_accuracy)
+    print(info_classification)
+train("../../data/train.csv", "../../data/model_new.pkl")

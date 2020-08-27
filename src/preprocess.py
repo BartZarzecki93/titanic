@@ -1,16 +1,19 @@
 import pandas as pd
+from src.build_features import BuildFeatures
 
 
-def execute(input_file, output_file):
-    # Reading initial file
-    data = pd.read_csv(input_file, sep=";")
+class Preprocessing:
+    def execute(self, data):
 
-    # Dropping unuseful columns
-    cols = ['Ticket', "Cabin"]
-    data = data.drop(cols, axis=1)
+        # Dropping unuseful columns
+        cols = ['Ticket', "Cabin", "PassengerId"]
+        data = data.drop(cols, axis=1)
 
-    # Dropping rows with missing values
-    data = data.dropna()
+        # Dropping rows with missing values
+        data = data.dropna()
 
-    # Saving new file with preprocessed data
-    data.to_csv(output_file, header=True, index=False)
+        # Building features
+        build_features = BuildFeatures()
+        data = build_features.execute(data)
+
+        return data

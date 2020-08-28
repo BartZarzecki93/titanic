@@ -1,5 +1,3 @@
-from src.build_features import BuildFeatures
-
 
 class Preprocessing:
     def execute(self, data):
@@ -10,9 +8,5 @@ class Preprocessing:
 
         # Dropping rows with missing values
         data = data.dropna()
-
-        # Building features
-        build_features = BuildFeatures()
-        data = build_features.execute(data)
 
         return data

@@ -2,39 +2,43 @@ import pandas as pd
 import pickle as pkl
 
 from src.preprocess import Preprocessing
+from src.build_features import BuildFeatures
 
 
-def predict(input_file, model):
+class Predict:
+    def execute(self, input_file, model):
 
-    # Reading file for prediction that is preprocessed
-    df = pd.read_csv(input_file, sep=";")
+        # Reading file for prediction that is preprocessed
+        df = pd.read_csv(input_file, sep=";")
 
-    # Preprocessing with building features
-    preprocess = Preprocessing()
-    df = preprocess.execute(df)
+        # Preprocessing with building features
+        preprocess = Preprocessing()
+        df = preprocess.execute(df)
 
-    # Getting the target and preparing data for prediction
-    target = df["Survived"]
-    df = df.drop(["Survived"], axis=1)
+        # Building features
+        build_features = BuildFeatures()
+        df = build_features.execute(df)
 
-    # Unpickling files
-    model_unpickle = open(model, 'rb')
-    model = pkl.load(model_unpickle)
-    model_unpickle.close()
+        # Getting the target and preparing data for prediction
+        target = df["Survived"]
+        df = df.drop(["Survived"], axis=1)
 
-    # Run prediction based on the created model
-    predictions = model.predict(df)
+        # Unpickling files
+        model_unpickle = open(model, 'rb')
+        model = pkl.load(model_unpickle)
+        model_unpickle.close()
 
-    # Reassign target (if it was present) and predictions.
-    df["Prediction"] = predictions
-    df["Target"] = target
+        # Run prediction based on the created model
+        predictions = model.predict(df)
 
-    match_count = 0
-    for row in df.iterrows():
-        if row[1]["Target"] == row[1]["Prediction"]:
-            match_count = match_count + 1
+        # Reassign target (if it was present) and predictions.
+        df["Prediction"] = predictions
+        df["Target"] = target
 
-    print("Accuracy is", match_count / df.shape[0])
+        match_count = 0
+        for row in df.iterrows():
+            if row[1]["Target"] == row[1]["Prediction"]:
+                match_count = match_count + 1
 
-
-predict("../data/val.csv", "../data/model.pkl")
+        print("Accuracy is", match_count / df.shape[0])
+        return df

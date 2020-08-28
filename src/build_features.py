@@ -26,7 +26,7 @@ class BuildFeatures:
         data['Age_bin'] = pd.cut(data['Age'], bins=[0, 12, 20, 40, 120],
                                  labels=['Children', 'Teenage', 'Adult', 'Elder'])
         # Deleting unnecessary columns
-        data = data.drop(['FamilySize', 'Name', 'Age', "Fare"], axis=1)
+        data = data.drop(['FamilySize', 'Name', 'Age', 'Fare'], axis=1)
 
         # Create Dummies (Binary)
         data = pd.get_dummies(data, columns=["Sex", "Age_bin", "Title", "Fare_bin", "Embarked"],

@@ -1,4 +1,3 @@
-import pandas as pd
 import pickle as pkl
 
 from sklearn.ensemble import RandomForestClassifier
@@ -31,5 +30,5 @@ class Train:
         info_classification = "Classification report for the model:\n " + str(classification_result)
         print(info_accuracy)
         print(info_classification)
-        print(clf)
-        return x_train
+
+        return x_train, clf

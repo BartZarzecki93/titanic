@@ -8,7 +8,7 @@ from src.predict import Predict
 
 def titanic_test(input_file):
     # Model path
-    model = "../data/model.pkl"
+    model = "../data/expected_model.pkl"
 
     # Reading initial file
     df = pd.read_csv(input_file, sep=";")
@@ -28,3 +28,6 @@ def titanic_test(input_file):
     # Predicting the output based on the trained model
     predict = Predict()
     predict.execute("../data/val.csv", model)
+
+
+titanic_test("../data/train.csv")

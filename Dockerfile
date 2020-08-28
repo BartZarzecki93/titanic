@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.6-stretch
 
 # check our python environment
 RUN python3 --version
@@ -15,4 +15,4 @@ COPY src/ /src/
 RUN ls -la /src/*
 
 # Running Python Application
-CMD ["python3"]
+CMD ["python3", "/src/main.py"]

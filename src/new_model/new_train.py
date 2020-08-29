@@ -1,9 +1,10 @@
-import pandas as pd
 import pickle as pkl
 
-from src.preprocess import Preprocessing
-from sklearn.svm import SVC
+import pandas as pd
 from sklearn.metrics import accuracy_score, classification_report
+from sklearn.svm import SVC
+
+from src.preprocess import Preprocessing
 
 
 def train(input_file, model):

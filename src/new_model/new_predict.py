@@ -1,7 +1,9 @@
-import pandas as pd
 import pickle as pkl
 
+import pandas as pd
+
 from src.preprocess import Preprocessing
+
 
 def predict(input_file, model):
     # Reading initial file

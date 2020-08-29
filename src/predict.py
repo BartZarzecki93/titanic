@@ -1,8 +1,8 @@
-import pandas as pd
 import pickle as pkl
+import pandas as pd
 
-from src.preprocess import Preprocessing
 from src.build_features import BuildFeatures
+from src.preprocess import Preprocessing
 
 
 class Predict:

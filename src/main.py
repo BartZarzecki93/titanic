@@ -1,14 +1,14 @@
 import pandas as pd
 
-from src.preprocess import Preprocessing
 from src.build_features import BuildFeatures
-from src.train import Train
 from src.predict import Predict
+from src.preprocess import Preprocessing
+from src.train import Train
 
 
 def titanic_test(input_file):
     # Model path
-    model = "../data/expected_model.pkl"
+    model = "../data/model.pkl"
 
     # Reading initial file
     df = pd.read_csv(input_file, sep=";")

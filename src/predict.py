@@ -1,27 +1,23 @@
 import pickle as pkl
-import pandas as pd
 
 from src.build_features import BuildFeatures
 from src.preprocess import Preprocessing
 
 
 class Predict:
-    def execute(self, input_file, model):
-
-        # Reading file for prediction that is preprocessed
-        df = pd.read_csv(input_file, sep=";")
+    def execute(self, input_data, model):
 
         # Preprocessing with building features
         preprocess = Preprocessing()
-        df = preprocess.execute(df)
+        input_data = preprocess.execute(input_data)
 
         # Building features
         build_features = BuildFeatures()
-        df = build_features.execute(df)
+        input_data = build_features.execute(input_data)
 
         # Getting the target and preparing data for prediction
-        target = df["Survived"]
-        df = df.drop(["Survived"], axis=1)
+        target = input_data["Survived"]
+        input_data = input_data.drop(["Survived"], axis=1)
 
         # Unpickling files
         model_unpickle = open(model, 'rb')
@@ -29,16 +25,16 @@ class Predict:
         model_unpickle.close()
 
         # Run prediction based on the created model
-        predictions = model.predict(df)
+        predictions = model.predict(input_data)
 
         # Reassign target (if it was present) and predictions.
-        df["Prediction"] = predictions
-        df["Target"] = target
+        input_data["Prediction"] = predictions
+        input_data["Target"] = target
 
         match_count = 0
-        for row in df.iterrows():
+        for row in input_data.iterrows():
             if row[1]["Target"] == row[1]["Prediction"]:
                 match_count = match_count + 1
 
-        print("Accuracy is", match_count / df.shape[0])
-        return df
+        print("Accuracy is", match_count / input_data.shape[0])
+        return predictions

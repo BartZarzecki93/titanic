@@ -10,11 +10,13 @@ from src.train import Train
 app = Flask(__name__)
 
 
+# Welcome message
 @app.route("/")
 def hello():
     return "Welcome to titanic survival check!"
 
 
+# Prediction URL
 @app.route('/predict', methods=['POST'])
 def predict():
     if saved_model:
@@ -34,7 +36,7 @@ def predict():
 
                 # prediction = list(model.predict(data))
 
-                return jsonify({'prediction': str(prediction)})
+                return jsonify({'prediction': str(prediction[0])})
 
         except:
 
@@ -46,7 +48,7 @@ def predict():
 
 if __name__ == '__main__':
     # Reading initial file
-    train_data = pd.read_csv("data/train.csv", sep=";")
+    train_data = pd.read_csv("data/initial_data/train.csv", sep=";")
     print('Reading initial file')
 
     # Preprocessing
@@ -61,11 +63,11 @@ if __name__ == '__main__':
 
     # Training model
     train = Train()
-    train.execute(train_data, "data/model.pkl")
+    train.execute(train_data, "data/initial_data/model.pkl")
     print('Training model')
 
     # Reading the model
-    saved_model = "data/model.pkl"
+    saved_model = "data/initial_data/model.pkl"
     print('Model loaded')
 
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True)

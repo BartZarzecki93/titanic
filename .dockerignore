@@ -5,4 +5,4 @@ LICENSE
 Dockerfile*
 docker-compose*
 data/*
-test/*
+tests/*

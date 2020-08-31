@@ -1,34 +1,40 @@
 import unittest
+import os
+import pandas as pd
 
 from src.predict import Predict
 
 
 class TestPredict(unittest.TestCase):
+    # Test set up
+    def setUp(self):
+        self.script_dir = os.path.dirname(os.path.abspath(__file__))
+        self.data_path = os.path.join(self.script_dir, os.pardir, 'data/test_data_predict/test.csv')
+        self.model_data_path = os.path.join(self.script_dir, os.pardir, 'data/test_data_predict/model.pkl')
+        self.expected_path = os.path.join(self.script_dir, os.pardir, 'data/test_data_predict/expected_result.csv')
+
     # Testing if columns were dropped
     def test_columns_removed(self):
         # Exporting test data
-        test_data = "../data/test_data_predict/test.csv"
-        model_path = '../data/model.pkl'
-        test_result = Predict().execute(test_data, model_path)
+        test_data = pd.read_csv(self.data_path, sep=";")
+        test_result = Predict().execute(test_data, self.model_data_path)
 
         removed_columns = ['FamilySize', 'Name', 'Age', 'Fare', 'Cabin', 'Ticket', 'PassengerId']
-        self.assertFalse(set(removed_columns).issubset(test_result.columns))
+        self.assertFalse(set(removed_columns).issubset(test_result[1].columns))
 
     # Testing if columns were added
     def test_column_added(self):
         # Exporting test data
-        test_data = "../data/test_data_predict/test.csv"
-        model_path = '../data/model.pkl'
-        test_result = Predict().execute(test_data, model_path)
+        test_data = pd.read_csv(self.data_path, sep=";")
+        test_result = Predict().execute(test_data, self.model_data_path)
 
         added_columns = ['Prediction', 'Target']
-        self.assertTrue(set(added_columns).issubset(test_result.columns))
+        self.assertTrue(set(added_columns).issubset(test_result[1].columns))
 
     # Testing length of columns
     def test_columns_length(self):
         # Exporting test data
-        test_data = "../data/test_data_predict/test.csv"
-        model_path = '../data/model.pkl'
-        test_result = Predict().execute(test_data, model_path)
+        test_data = pd.read_csv(self.data_path, sep=";")
+        test_result = Predict().execute(test_data, self.model_data_path)
 
-        self.assertEqual(len(test_result.columns), 24)
+        self.assertEqual(len(test_result[1].columns), 24)

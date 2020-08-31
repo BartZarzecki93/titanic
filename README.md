@@ -8,7 +8,7 @@ Run the command in root directory to run all the test:
 $ python -m unittest
 ```
 
-##Run in command line
+## Run in command line
 
 Run the command to run the application from the command line:
 ```

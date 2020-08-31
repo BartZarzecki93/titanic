@@ -8,7 +8,12 @@ After exploring the data and brief analysis we can state that there are missing 
 Age and embarked columns were the most significant ones.
 (As it was in the initianl files, the rows were ignored in the porcess.
 I would somehow agree. We could potentialy fill those gaps with median for age and just picked one emabrked value
-for embarked column, however, from lager perspective that step would affect the final result in some sort of negative way.)
+for embarked column, however, from lager perspective that step would affect the final result in some sort of negative way.
+the age could be replaced with median
+data['Age'].fillna(data['Age'].median(), inplace=True) => that gives 125 more rows that could go into the training
+Howerever, I belive that Age is very important feature and if you really wanna see if you would surive or not, age should
+be require in the prediction.
+)
 Just by looking at the documentation for each option, I can state that there is a lot of settings that can be done for
 each model. I know that we have to search based on our provided data, however, there is so many options that people
 tried to perform and the accuracy in those tests were different by vary small one digit number.

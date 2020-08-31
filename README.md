@@ -16,7 +16,8 @@ $ python main.py
 ```
 If app is running correctly go to Insomnia and create new POST request.
 
-Make sure that you will put "http://localhost:5000/predict" as url.
+Make sure that you will put "http://localhost:5000/predict" as url. (port 5000 is a default port, 
+if you need to change the port number to other one)
 
 Copy data from titanic/data/test_data_api/test.json and use JSON section to post that data.
 
@@ -59,7 +60,7 @@ docker stop [YOUR CONTAINER NUMBER HERE]
 
 New model from task 5 was created in the titanic.src/new_model/ directory.
 The new model was not used in tasks from 7 - 9.
-Full description for the new model is located in titanic/src/new_model/task6.txt
+Full description for the new model is located in docs/task6.txt
 New model can be easily be replaced or added in the app. 
 Need to point the app (train) to the directory ./src/new_model/train.py and then send model path to predict function.
 

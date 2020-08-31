@@ -55,10 +55,13 @@ docker stop [YOUR CONTAINER NUMBER HERE]
 ```
 
 
-##Notes
+## Notes
 
 New model from task 5 was created in the titanic.src/new_model/ directory.
 The new model was not used in tasks from 7 - 9.
 Full description for the new model is located in titanic/src/new_model/task6.txt
+New model can be easily be replaced or added in the app. 
+Need to point the app (train) to the directory ./src/new_model/train.py and then send model path to predict function.
+
 
 

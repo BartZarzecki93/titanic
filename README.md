@@ -59,4 +59,6 @@ docker stop [YOUR CONTAINER NUMBER HERE]
 
 New model from task 5 was created in the titanic.src/new_model/ directory.
 The new model was not used in tasks from 7 - 9.
+Full description for the new model is located in titanic/src/new_model/task6.txt
+
 

@@ -14,7 +14,7 @@ class TestBuildFeatures(unittest.TestCase):
                                           'data/test_data_build_features/expected_result.csv')
 
     # Testing number of columns
-    def test_columns_length(self):
+    def test_number_of_columns_and_rows(self):
         # Exporting test data
         test_data = pd.read_csv(self.data_path)
         test_result = BuildFeatures().execute(test_data)
@@ -22,6 +22,7 @@ class TestBuildFeatures(unittest.TestCase):
         # Exporting expected data
         expected_result = pd.read_csv(self.expected_path)
 
+        self.assertEqual(test_result.shape[0], expected_result.shape[0])
         self.assertEqual(len(test_result.columns), len(expected_result.columns))
 
     # Testing if columns were dropped
@@ -30,7 +31,7 @@ class TestBuildFeatures(unittest.TestCase):
         test_data = pd.read_csv(self.data_path)
         test_result = BuildFeatures().execute(test_data)
 
-        removed_columns = ['FamilySize', 'Name', 'Age', 'Fare']
+        removed_columns = ['FamilySize', 'Name', 'Age', 'Fare', 'Title', 'Sex', 'Embarked']
         self.assertFalse(set(removed_columns).issubset(test_result.columns))
 
         # Testing if columns were dropped

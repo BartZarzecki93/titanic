@@ -34,16 +34,23 @@ def predict():
                 predict_outcome = Predict()
                 prediction = predict_outcome.execute(data, saved_model)
 
-                # prediction = list(model.predict(data))
+                # Concat data for more detailed json result
+                concat_data = pd.concat([data, prediction.reindex(data.index)], axis=1)
+                predictions_results = []
+                for row in concat_data.iterrows():
+                    if row[1]["Prediction"] == 1:
+                        predictions_results.append({"Name": row[1]["Name"], "Result": "Would survive the crash"})
+                    else:
+                        predictions_results.append({"Name": row[1]["Name"], "Result": "Would not survive the crash"})
 
-                return jsonify({'prediction': str(prediction[0])})
+                return jsonify(predictions_results)
 
         except:
-
-            return jsonify({'trace': traceback.format_exc()})
+            # Return the error
+            return jsonify({traceback.format_exc()})
     else:
         print('There is no model')
-        return ('No model here to use')
+        return 'No model to use'
 
 
 if __name__ == '__main__':
@@ -70,4 +77,4 @@ if __name__ == '__main__':
     saved_model = "data/initial_data/model.pkl"
     print('Model loaded')
 
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')

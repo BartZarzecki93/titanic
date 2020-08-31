@@ -13,16 +13,16 @@ class TestPreprocess(unittest.TestCase):
         self.expected_path = os.path.join(self.script_dir, os.pardir, 'data/test_data_preprocess/expected_result.csv')
 
     # Testing if length of columns and rows is correct
-    def test_number_of_columns(self):
+    def test_number_of_columns_and_rows(self):
 
-        # Exporting test data
+        # Exporting and running test data
         test_data = pd.read_csv(self.data_path, sep=";")
         test_result = Preprocessing().execute(test_data)
 
         # Exporting expected data
-
         expected_result = pd.read_csv(self.expected_path)
 
+        self.assertEqual(test_result.shape[0], expected_result.shape[0])
         self.assertEqual(len(test_result.columns), len(expected_result.columns))
 
     # Testing if columns were dropped in the preprocessing

@@ -37,4 +37,4 @@ class Predict:
                 match_count = match_count + 1
 
         print("Accuracy is", match_count / data.shape[0])
-        return predictions, data
+        return data

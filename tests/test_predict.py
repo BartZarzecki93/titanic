@@ -19,8 +19,8 @@ class TestPredict(unittest.TestCase):
         test_data = pd.read_csv(self.data_path, sep=";")
         test_result = Predict().execute(test_data, self.model_data_path)
 
-        removed_columns = ['FamilySize', 'Name', 'Age', 'Fare', 'Cabin', 'Ticket', 'PassengerId']
-        self.assertFalse(set(removed_columns).issubset(test_result[1].columns))
+        removed_columns = ['FamilySize', 'Name', 'Age', 'Fare', 'Title', 'Sex', 'Embarked', 'PassengerId']
+        self.assertFalse(set(removed_columns).issubset(test_result.columns))
 
     # Testing if columns were added
     def test_column_added(self):
@@ -29,12 +29,12 @@ class TestPredict(unittest.TestCase):
         test_result = Predict().execute(test_data, self.model_data_path)
 
         added_columns = ['Prediction', 'Target']
-        self.assertTrue(set(added_columns).issubset(test_result[1].columns))
+        self.assertTrue(set(added_columns).issubset(test_result.columns))
 
     # Testing length of columns
-    def test_columns_length(self):
+    def test_number_of_columns(self):
         # Exporting test data
         test_data = pd.read_csv(self.data_path, sep=";")
         test_result = Predict().execute(test_data, self.model_data_path)
 
-        self.assertEqual(len(test_result[1].columns), 24)
+        self.assertEqual(len(test_result.columns), 24)
